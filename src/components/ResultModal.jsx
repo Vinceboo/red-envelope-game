@@ -4,8 +4,14 @@ import confetti from 'canvas-confetti';
 
 export const ResultModal = ({ amount, onRestart }) => {
     const [showAmount, setShowAmount] = useState(false);
+    const [title, setTitle] = useState("马到成功");
+
+    const titles = ["马到成功", "一马当先", "万马奔腾", "快马加鞭", "马上有钱", "金马玉堂"];
 
     useEffect(() => {
+        // Randomize title
+        setTitle(titles[Math.floor(Math.random() * titles.length)]);
+
         // Trigger confetti when component mounts (result shown)
         const count = 200;
         const defaults = {
@@ -60,7 +66,7 @@ export const ResultModal = ({ amount, onRestart }) => {
                         className="text-2xl text-[var(--color-ios-gold)] font-semibold mb-8 tracking-wide drop-shadow-sm"
                         style={{ fontFamily: 'var(--font-display)' }}
                     >
-                        恭喜发财
+                        {title}
                     </motion.h2>
 
                     {/* Content with 3D Flip Effect */}
@@ -100,9 +106,13 @@ export const ResultModal = ({ amount, onRestart }) => {
                         </AnimatePresence>
                     </div>
                     <motion.button
-                        whileTap={{ scale: 0.96 }}
+                        disabled={!showAmount}
+                        whileTap={!showAmount ? {} : { scale: 0.96 }}
                         onClick={onRestart}
-                        className="w-full bg-white text-black font-semibold py-4 rounded-full shadow-lg text-lg hover:bg-gray-50 transition-colors ios-btn"
+                        className={`w-full font-semibold py-4 rounded-full shadow-lg text-lg transition-all duration-300 ios-btn ${showAmount
+                                ? 'bg-white text-black hover:bg-gray-50 opacity-100 cursor-pointer'
+                                : 'bg-white/50 text-white/50 cursor-not-allowed opacity-50'
+                            }`}
                     >
                         再试一次
                     </motion.button>

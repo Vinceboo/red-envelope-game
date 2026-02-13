@@ -58,8 +58,9 @@ function App() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} // iOS ease
         className="mb-12 text-center z-10 relative"
       >
-        <div className="inline-block px-4 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-4">
-          <span className="text-xs font-medium text-[var(--color-ios-gold)] uppercase tracking-widest">乙巳蛇年</span>
+        <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-[var(--color-ios-gold)]/30 mb-6 shadow-[0_0_15px_rgba(255,214,10,0.2)]">
+          <span className="text-lg">🐎</span>
+          <span className="text-sm font-bold text-[var(--color-ios-gold)] uppercase tracking-[0.2em]">丙午马年</span>
         </div>
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white drop-shadow-2xl mb-4"
           style={{ fontFamily: 'var(--font-display)' }}>
@@ -76,7 +77,7 @@ function App() {
           {selectedId === null ? (
             <motion.div
               key="grid"
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-10 w-full place-items-center px-4"
+              className="grid grid-cols-3 md:grid-cols-5 gap-4 md:gap-10 w-full place-items-center px-4"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
