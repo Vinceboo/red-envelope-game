@@ -33,7 +33,7 @@ export const RedEnvelope = ({ id, status, onSelect, className, index, layoutId, 
             onClick={() => status === 'idle' && onSelect(id)}
             className={cn(
                 'relative cursor-pointer select-none touch-none',
-                'w-24 h-32 md:w-36 md:h-48', // Dimensions optimized for 3 cols on mobile
+                'w-32 h-44 md:w-36 md:h-48', // Dimensions optimized for 2 cols scrollable
                 'flex items-center justify-center',
                 'group',
                 'will-change-transform backface-hidden', // Optimization hints

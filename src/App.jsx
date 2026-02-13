@@ -49,14 +49,14 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col items-center justify-start p-4 pt-12 relative overflow-y-auto">
 
       {/* Header - Apple Style */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} // iOS ease
-        className="mb-12 text-center z-10 relative"
+        className="mb-8 text-center z-10 relative"
       >
         <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-[var(--color-ios-gold)]/30 mb-6 shadow-[0_0_15px_rgba(255,214,10,0.2)]">
           <span className="text-lg">🐎</span>
@@ -77,7 +77,7 @@ function App() {
           {selectedId === null ? (
             <motion.div
               key="grid"
-              className="grid grid-cols-3 md:grid-cols-5 gap-4 md:gap-10 w-full place-items-center px-4"
+              className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-10 w-full place-items-center px-4 pb-24"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
