@@ -49,7 +49,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-start p-4 pt-12 relative overflow-y-auto">
+    <div className="min-h-[100dvh] w-full flex flex-col items-center justify-start py-12 px-4 relative overflow-y-auto overflow-x-hidden -webkit-overflow-scrolling-touch">
 
       {/* Header - Apple Style */}
       <motion.div
