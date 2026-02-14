@@ -2,15 +2,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 
-export const ResultModal = ({ amount, onRestart }) => {
+export const ResultModal = ({ amount, title: honorTitle, onRestart }) => {
     const [showAmount, setShowAmount] = useState(false);
-    const [title, setTitle] = useState("马到成功");
+    const [headerTitle, setHeaderTitle] = useState("马到成功");
 
     const titles = ["马到成功", "一马当先", "万马奔腾", "快马加鞭", "马上有钱", "金马玉堂"];
 
     useEffect(() => {
         // Randomize title
-        setTitle(titles[Math.floor(Math.random() * titles.length)]);
+        setHeaderTitle(titles[Math.floor(Math.random() * titles.length)]);
 
         // Trigger confetti when component mounts (result shown)
         const count = 200;
@@ -66,7 +66,7 @@ export const ResultModal = ({ amount, onRestart }) => {
                         className="text-2xl text-[var(--color-ios-gold)] font-semibold mb-8 tracking-wide drop-shadow-sm"
                         style={{ fontFamily: 'var(--font-display)' }}
                     >
-                        {title}
+                        {headerTitle}
                     </motion.h2>
 
                     {/* Content with 3D Flip Effect */}
@@ -87,6 +87,11 @@ export const ResultModal = ({ amount, onRestart }) => {
                                             {amount}
                                         </span>
                                     </div>
+                                    {honorTitle && (
+                                        <span className="mt-3 inline-block text-sm bg-[var(--color-ios-gold)]/20 text-[var(--color-ios-gold)] px-4 py-1.5 rounded-full font-semibold">
+                                            {honorTitle.text}
+                                        </span>
+                                    )}
                                 </motion.div>
                             ) : (
                                 <motion.div
@@ -110,8 +115,8 @@ export const ResultModal = ({ amount, onRestart }) => {
                         whileTap={!showAmount ? {} : { scale: 0.96 }}
                         onClick={onRestart}
                         className={`w-full font-semibold py-4 rounded-full shadow-lg text-lg transition-all duration-300 ios-btn ${showAmount
-                                ? 'bg-white text-black hover:bg-gray-50 opacity-100 cursor-pointer'
-                                : 'bg-white/50 text-white/50 cursor-not-allowed opacity-50'
+                            ? 'bg-white text-black hover:bg-gray-50 opacity-100 cursor-pointer'
+                            : 'bg-white/50 text-white/50 cursor-not-allowed opacity-50'
                             }`}
                     >
                         再试一次
