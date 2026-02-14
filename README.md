@@ -1,16 +1,72 @@
-# React + Vite
+# 2026 丙午马年红包工具 - 产品需求文档 (PRD)
+**版本**: 2.0 (Final)
+**日期**: 2026-02-14
+**代号**: prd0214
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. 产品概述
+一款功能完备的“红包分发工具”，专为 2026 马年春节设计。区别于普通红包，本工具提供**高度可定制**（金额/尾数/分布）、**多元化交互**（摇/划/点/双人）及**趣味称号荣誉体系**，适合年会抽奖、家庭聚会等投屏或面对面分享场景。
 
-Currently, two official plugins are available:
+## 2. 用户流程 (User Flows)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 2.1. 发红包人流程 (设置与生成)
+1.  **进入页面**：默认进入**设置页 (SetupScreen)**。
+2.  **高级配置**：
+    *   **基础设置**：数量 (2-10)、模式 (拼手气/自定义)、总金额。
+    *   **开法皮肤**：选择 5 种不同的开红包交互方式。
+    *   **分布风格**：选择金额分配的波动程度 (均衡/标准/刺激)。
+    *   **风控设置**：设置保底金额、封顶金额。
+    *   **趣味增强**：配置彩蛋金额、幸运尾数偏好。
+    *   **称号系统**：选择称号主题包 (马年/搞笑/祝福/职场) 及展示颗粒度。
+3.  **生成红包**：点击“塞钱进红包”，系统校验通过后跳转。
 
-## React Compiler
+### 2.2. 抢红包人流程 (互动体验)
+1.  **游戏页**：展示 3D 红包网格。
+2.  **开红包**：点击选中红包，红包放大。
+    *   **交互执行**：根据配置，在红包主体上执行 长按/摇一摇/滑动/连点/双人 等操作。
+    *   **状态反馈**：红包震动、发光、进度条/滑块反馈。
+3.  **结果展示**：
+    *   **开奖结果**：显示金额、特定的趣味称号 (如 "马年锦鲤")。
+    *   **网格状态**：已拆红包显示“已拆”及金额、称号徽章。
+4.  **全局统计**：
+    *   **荣誉墙**：点击展开，查看“手气王”、“运气最差”、“最稳选手”、“幸运尾数”等统计榜单。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 3. 功能需求详情 (v2.0 增补)
 
-## Expanding the ESLint configuration
+### 3.1. 配置模块 (SetupScreen)
+| ID | 功能点 | 详细描述 | 逻辑/参数 |
+| :--- | :--- | :--- | :--- |
+| **C1** | **数量与金额** | 支持 2-10 个红包；拼手气(总额) 或 自定义(逐个设置)。 | 精度：分 (Integer)。 |
+| **C6** | **开法皮肤** | 选择开红包的交互方式。 | 选项：**长按(默认)**, 摇一摇, 划封条, 连点三次, 双人合力。 |
+| **C7** | **分布风格** | 控制随机金额的方差 (Variance)。 | **均衡**(1.1x均值), **标准**(2.0x), **刺激**(4.0x, 允许超大额)。 |
+| **C8** | **保底/封顶** | 限制单个红包的金额范围。 | `minCents` ≤ x ≤ `maxCents`。 |
+| **C9** | **彩蛋红包** | 预埋固定的特殊金额 (如 13.14, 88.88)。 | 随机替换生成的某 1-2 个红包，不占随机算法配额。 |
+| **C10** | **幸运尾数** | 偏好特定的尾数 (0-9)。 | 算法后处理：微调金额以匹配尾数，支持 弱/中/强 强度。 |
+| **C11** | **称号系统** | 配置结果页展示的称号文案。 | 主题：马年/搞笑/祝福/职场；颗粒度：仅手气王 / Top3+最低 / 人人有称号。 |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 3.2. 游戏交互模块 (GameScreen)
+| ID | 功能点 | 描述 | 实现细节 |
+| :--- | :--- | :--- | :--- |
+| **G1** | **交互集成** | 所有开法交互直接在红包主体 (Body) 上进行。 | 避免底部按钮割裂感；滑动条位于封口，指纹位于封面。 |
+| **G5** | **多重开法** | 5 种交互实现。 | **摇一摇**：监听 `devicemotion` (阈值25)；**滑动**：拖拽滑块 >80%；**双人**：双指同时按压。 |
+| **G6** | **荣誉墙** | 实时统计并展示关键数据。 | 顶部折叠卡片；展示 Max/Min/Stable 用户及幸运尾数命中者。 |
+| **G7** | **已拆状态** | 网格中已开启的红包样式变更。 | 变暗、显示“已拆”、金额、称号徽章；不可再次点击。 |
+
+### 3.3. 核心算法 (HongbaoAlgo)
+1.  **基准算法**：基于二倍均值法 (`Random(min, 2 * avg)`) 改良。
+2.  **方差控制**：
+    *   `Random(min, multiplier * avg)`，其中 `multiplier` 动态可调 (1.1 ~ 4.0)。
+3.  **约束处理 (Clamp)**：生成时强制检查 `minCents` 和 `maxCents`，重试机制保证满足约束。
+4.  **后处理 (Post-Process)**：
+    *   **彩蛋注入**：随机位置覆写彩蛋金额。
+    *   **尾数匹配**：在误差允许范围内 (±strength) 微调金额以命中 `luckyTails`。
+
+## 4. 技术栈与架构
+*   **前端框架**：React + Vite
+*   **样式库**：Tailwind CSS (Styling) + Framer Motion (Animation)
+*   **图标库**：Lucide React
+*   **状态管理**：`App.jsx` 作为单一数据源 (Single Source of Truth)，下发 `settings` 和 `envelopes`。
+*   **部署**：纯前端静态部署 (Vercel/GitHub Pages)。
+
+## 5. 变更日志
+*   **v1.0 (02-12)**: 基础抽奖功能，3D 翻转效果。
+*   **v2.0 (02-14)**: 完成工具化转型。新增高级算法、5种交互、称号系统、荣誉墙、完整设置页。修复交互位置问题，优化 web 端方差体验。
